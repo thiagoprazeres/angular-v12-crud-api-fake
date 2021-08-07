@@ -1,0 +1,28 @@
+{
+    "itens": [
+        {
+            "id": 1,
+            "nome": "Caderno"
+        },
+        {
+            "id": 2,
+            "nome": "Camisa"
+        },
+        {
+            "id": 3,
+            "nome": "Caixa de som"
+        },
+        {
+            "id": 4,
+            "nome": "Desodorante"
+        },
+        {
+            "id": 5,
+            "nome": "Casaco"
+        },
+        {
+            "id": 6,
+            "nome": "Escova de dentes"
+        }
+    ]
+}
