@@ -26,10 +26,15 @@ export class AppComponent implements OnInit {
     console.log(item);
   }
   create() {
-    this.itens.push(this.itemForm.value);
-    this.itemForm.reset();
+    this.http.post<Item>(environment.apiUrl + '/itens', this.itemForm.value).subscribe((item: Item) => this.itens.push(item));
   }
-  delete(index: number) {
-    this.itens.splice(index, 1)
+  delete(id: Number) {
+    this.http.delete(environment.apiUrl + '/itens/' + id).subscribe(() => {
+      let index = this.itens.findIndex(d => d.id === id);
+      this.itens.splice(index, 1);
+    });
+  }
+  update(item: Item) {
+    this.http.put(environment.apiUrl + '/itens/' + item.id, item).subscribe(res => console.log(res));
   }
 }

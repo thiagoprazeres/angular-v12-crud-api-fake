@@ -4,10 +4,10 @@
 <mat-list id="create">
   <div mat-subheader>Adcionar item</div>
   <mat-list-item>
-    <form [formGroup]="itemForm" (ngSubmit)="create()">
-      <mat-form-field appearance="fill">
+    <form [formGroup]="itemForm" (ngSubmit)="inputItem.value = '';create()">
+      <mat-form-field>
         <mat-label>Nome</mat-label>
-        <input matInput id="nome" name="nome" formControlName="nome" placeholder="nome" required>
+        <input matInput id="nome" name="nome" formControlName="nome" placeholder="nome" required #inputItem>
       </mat-form-field>
       <button mat-raised-button type="submit" [disabled]="!itemForm.valid" style="margin-left: 16px;" color="primary">
         Adicionar
@@ -17,10 +17,12 @@
 </mat-list>
 <mat-list id="lista" *ngIf="itens.length > 0;else carregando">
   <div mat-subheader>Meus itens</div>
-  <mat-list-item *ngFor="let item of itens; let i = index">
+  <mat-list-item *ngFor="let item of itens.reverse()">
     <input matInput type="text" [(ngModel)]="item.nome">
-    <!-- <mat-icon mat-list-icon (click)="onSelect(item)">edit</mat-icon> -->
-    <button mat-icon-button (click)="delete(i)">
+    <button mat-icon-button (click)="update(item)">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="delete(item.id)">
       <mat-icon>delete</mat-icon>
     </button>
   </mat-list-item>
