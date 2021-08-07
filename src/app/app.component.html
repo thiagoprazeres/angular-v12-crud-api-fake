@@ -1,23 +1,41 @@
 <mat-toolbar color="primary">
   Angular 12 CRUD API Fake
 </mat-toolbar>
-<mat-list id="create">
-  <div mat-subheader>Adcionar item</div>
+<mat-list id="search">
   <mat-list-item>
-    <form [formGroup]="itemForm" (ngSubmit)="inputItem.value = '';create()">
-      <mat-form-field>
-        <mat-label>Nome</mat-label>
-        <input matInput id="nome" name="nome" formControlName="nome" placeholder="nome" required #inputItem>
+    <form [formGroup]="itemSearchForm" (ngSubmit)="search()" style="width: 100%;">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Buscar item</mat-label>
+        <input matInput type="search" name="nome" formControlName="nome" required #inputSearch>
+        <button matSuffix mat-icon-button type="reset" aria-label="Limpar" (click)="inputSearch.value='';getAllItens()"
+          [disabled]="!inputSearch.value">
+          <mat-icon *ngIf="inputSearch.value">close</mat-icon>
+        </button>
+        <button matSuffix mat-icon-button type="submit" [disabled]="!inputSearch.value" color="accent">
+          <mat-icon>search</mat-icon>
+        </button>
       </mat-form-field>
-      <button mat-raised-button type="submit" [disabled]="!itemForm.valid" style="margin-left: 16px;" color="primary">
-        Adicionar
-      </button>
     </form>
   </mat-list-item>
 </mat-list>
-<mat-list id="lista" *ngIf="itens.length > 0;else carregando">
+<mat-list id="0">
+  <div mat-subheader>Adcionar item</div>
+  <mat-list-item>
+    <form [formGroup]="itemForm" (ngSubmit)="create();inputItem.value = ''" style="width: 100%;">
+      <mat-form-field style="width: 100%;">
+        <mat-label>Nome</mat-label>
+        <input matInput name="nome" formControlName="nome" required #inputItem>
+        <button matSuffix mat-icon-button aria-label="Adicionar" [disabled]=" !itemForm.valid">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-form-field>
+    </form>
+  </mat-list-item>
+</mat-list>
+<mat-spinner *ngIf="carregando" style="margin: 48px auto"></mat-spinner>
+<mat-list id="lista" *ngIf="itens.length > 0 && !carregando;else vazio">
   <div mat-subheader>Meus itens</div>
-  <mat-list-item *ngFor="let item of itens.reverse()">
+  <mat-list-item *ngFor="let item of itens">
     <input matInput type="text" [(ngModel)]="item.nome">
     <button mat-icon-button (click)="update(item)">
       <mat-icon>edit</mat-icon>
@@ -30,6 +48,10 @@
     Total: {{itens.length}}
   </mat-list-item>
 </mat-list>
-<ng-template #carregando>
-  <mat-spinner style="margin: 48px auto"></mat-spinner>
+<ng-template #vazio>
+  <mat-list>
+    <mat-list-item>
+      Nenhum registro encontrado.
+    </mat-list-item>
+  </mat-list>
 </ng-template>
